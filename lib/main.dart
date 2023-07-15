@@ -1,6 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hearing_act/screens/home_screen.dart';
+import 'package:hearing_act/screens/authentication_screen.dart';
 
 final kcolorSchema =
     ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 240, 255, 248));
@@ -51,6 +53,7 @@ class Myapp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(body: HomeScreen());
+    return  Scaffold(
+      body: ProviderScope(child: AuthenticationScreen()));
   }
 }
