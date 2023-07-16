@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hearing_act/screens/profile_form.dart';
 import 'package:hearing_act/widgets/widgetText_field.dart';
 import 'package:hearing_act/methods/auth_method.dart';
 
@@ -7,10 +8,12 @@ final switchScreen = StateProvider((ref) => false);
 
 class AuthenticationScreen extends StatelessWidget {
   AuthenticationScreen({super.key});
-  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _confirmPController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
+  final _signform = GlobalKey<FormState>();
+  final _loginform = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,17 +30,46 @@ class AuthenticationScreen extends StatelessWidget {
                   const SizedBox(
                     height: 30,
                   ),
-                  WidgetTextField('Email',
-                      textController: _emailController, lable: 'Email Id'),
-                  WidgetTextField('Password',
-                      textController: _passwordController, lable: 'password'),
+                  Form(
+                    key: _signform,
+                    child: Column(children: [
+                      TextFormField(
+                        controller: _emailController,
+                        decoration: const InputDecoration(
+                          hintText: 'Email',
+                        ),
+                        validator: (value) {
+                          if(value == null || value.isEmpty){
+                            return 'Enter your Email Id';
+                          }else{
+                            return null;
+                          }
+                        },
+                      ),
+                      TextFormField(
+                        controller: _passwordController,
+                        decoration: const InputDecoration(
+                          hintText: 'password',
+                        ),
+                        validator: (value) {
+                          if(value == null || value.isEmpty){
+                            return 'Enter password';
+                          }else{
+                            return null;
+                          }
+                        },
+                      ),
+                    ],),),
+                  
                   ElevatedButton(
-                      onPressed: () async {
-                        final response = await Auth.signupuser(
+                      onPressed: () {
+                         if(_signform.currentState!.validate()){
+                            Auth.signinuser(
                             _emailController.text,
                             _passwordController.text,
-                            _nameController.text,
                             context);
+                         }
+                        
                       },
                       child: const Text('SignIn')),
                   TextButton(
@@ -53,19 +85,62 @@ class AuthenticationScreen extends StatelessWidget {
                 const SizedBox(
                   height: 30,
                 ),
-                WidgetTextField('Name',
-                    textController: _nameController, lable: 'Name'),
-                WidgetTextField('Email',
-                    textController: _emailController, lable: 'Email Id'),
-                WidgetTextField('Password',
-                    textController: _passwordController, lable: 'password'),
+                Form(
+                    key: _loginform,
+                    child: Column(children: [
+                      TextFormField(
+                        controller: _emailController,
+                        decoration: const InputDecoration(
+                          hintText: 'Email',
+                        ),
+                        validator: (value) {
+                          if(value == null || value.isEmpty){
+                            return 'Enter your Email Id';
+                          }else{
+                            return null;
+                          }
+                        },
+                      ),
+                      TextFormField(
+                        controller: _passwordController,
+                        decoration: const InputDecoration(
+                          hintText: 'password',
+                        ),
+                        validator: (value) {
+                          if(value == null || value.isEmpty){
+                            return 'Enter password';
+                          }else{
+                            return null;
+                          }
+                        },
+                      ),
+                      TextFormField(
+                        controller: _confirmPController,
+                        decoration: const InputDecoration(
+                          hintText: 'confirm password',
+                        ),
+                        validator: (value) {
+                          if(value == null || value.isEmpty){
+                            return 'Retype your password';
+                          }else if(value != _passwordController.text){
+                            return 'Enter password is not same';
+                          }
+                          else{
+                            return null;
+                          }
+                        },
+                      ),
+                    ],),),
+                
                 ElevatedButton(
                     onPressed: () {
-                      Auth.signupuser(
+                      if(_loginform.currentState!.validate()){
+                         Auth.signupuser(
                           _emailController.text,
-                          _passwordController.text,
-                          _nameController.text,
+                          _passwordController.text, 
+                          _confirmPController.text,
                           context);
+                      }
                     },
                     child: const Text('Login')),
                 TextButton(

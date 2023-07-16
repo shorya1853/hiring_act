@@ -6,44 +6,40 @@ import 'package:hearing_act/methods/firestore_method.dart';
 class Auth {
   FirebaseAuth auth = FirebaseAuth.instance;
 
-  static signupuser(
-      String email, String password, String name, BuildContext context) async {
+  static signupuser(String email, String password, String confirmP,
+      BuildContext context) async {
     try {
-      UserCredential credential =
-          await FirebaseAuth.instance.createUserWithEmailAndPassword(email: email, password: password);
-      
-      await FirebaseService.saveuser(email, name, credential.user!.uid);
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Registration Successful')));    
+      await FirebaseAuth.instance
+      .createUserWithEmailAndPassword(email: email, password: password);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         ScaffoldMessenger.of(context)
             .showSnackBar(const SnackBar(content: Text('Weak Password')));
-      }else if(e.code == 'email-already-in-use'){
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Email Already in use')));
+      } else if (e.code == 'email-already-in-use') {
+        ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Email Already in use')));
+      }
+      else{
+        ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(e.toString())));
       }
     } catch (e) {
       print(e.toString());
     }
   }
 
-  static signinuser(
-      String email, String password, String name, BuildContext context) async {
+  static signinuser(String email, String password, BuildContext context) async {
     try {
-      UserCredential credential =
-          await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password);
-      
-      await FirebaseService.saveuser(email, name, credential.user!.uid);
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Registration Successful')));    
+      UserCredential credential = await FirebaseAuth.instance
+          .signInWithEmailAndPassword(email: email, password: password);
+
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Registration Successful')));
     } on FirebaseAuthException catch (e) {
-      if (e.code == 'weak-password') {
-        ScaffoldMessenger.of(context)
-            .showSnackBar(const SnackBar(content: Text('Weak Password')));
-      }else if(e.code == 'email-already-in-use'){
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Email Already in use')));
-      }
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(e.toString())));
     } catch (e) {
       print(e.toString());
     }
   }
 }
-

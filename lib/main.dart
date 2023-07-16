@@ -1,8 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hearing_act/screens/home_screen.dart';
 import 'package:hearing_act/screens/authentication_screen.dart';
+import 'package:hearing_act/screens/profile_form.dart';
 
 final kcolorSchema =
     ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 240, 255, 248));
@@ -15,6 +17,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp( MaterialApp(
+    
     debugShowCheckedModeBanner: false,
     darkTheme: ThemeData().copyWith(
         colorScheme: kdarkcolorSchema,
@@ -44,7 +47,7 @@ Future<void> main() async {
               ),
             ),
       ),
-    home: const Myapp(),
+    home: const ProviderScope(child: Myapp()),
   ));
 }
 
@@ -54,6 +57,20 @@ class Myapp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
-      body: ProviderScope(child: AuthenticationScreen()));
+      body: StreamBuilder(
+        stream: FirebaseAuth.instance.authStateChanges(),
+        builder: (context, snapshot) {
+        if(snapshot.connectionState == ConnectionState.waiting){
+          return const Center(child: CircularProgressIndicator());
+        }
+        if(snapshot.hasError){
+          return const Center(child: Text('Something went worng'),);
+        }else if(snapshot.hasData){
+          return ProfileForm();
+        }
+        else{
+          return AuthenticationScreen();
+        }
+      },));
   }
 }
