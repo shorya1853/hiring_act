@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hearing_act/main.dart';
 import 'package:hearing_act/models/employe_model.dart';
-import 'package:hearing_act/screens/form/profile_form.dart';
+
+import '../profile_form.dart';
 
 class JobPreference extends StatefulWidget {
   const JobPreference({super.key});

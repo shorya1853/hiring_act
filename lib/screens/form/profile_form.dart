@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hearing_act/screens/form/eduction_form.dart';
 
 import '../../main.dart';
 import '../../models/employe_model.dart';
@@ -11,6 +12,7 @@ class ProfileForm extends StatefulWidget {
 }
 
 class _ProfileFormState extends State<ProfileForm> {
+  var pro_key = GlobalKey<FormState>();
   var initgenderT = gendertype[genders.male];
   var initJobT = Iamtype[Iam.Expriences];
   DateTime? _DateOB;
@@ -61,6 +63,7 @@ class _ProfileFormState extends State<ProfileForm> {
                 height: 20,
               ),
               Form(
+                key: pro_key,
                 child: Column(
                   children: [
                     DropdownButtonFormField(
@@ -91,7 +94,7 @@ class _ProfileFormState extends State<ProfileForm> {
                             fillColor: Theme.of(context)
                                 .colorScheme
                                 .onPrimaryContainer,
-                            label: const Text("Job Type",
+                            label: const Text("Gender",
                                 style: TextStyle(fontSize: 20))),
                         onChanged: (value) {}),
                     const SizedBox(
@@ -104,7 +107,7 @@ class _ProfileFormState extends State<ProfileForm> {
                             fillColor: Theme.of(context)
                                 .colorScheme
                                 .onPrimaryContainer,
-                            label: const Text("Job Type",
+                            label: const Text("JobType",
                                 style: TextStyle(fontSize: 20))),
                         items: [
                           for (final item in Iamtype.entries)
@@ -127,12 +130,6 @@ class _ProfileFormState extends State<ProfileForm> {
                               ),
                             )
                         ],
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter Job Type';
-                          }
-                          return null;
-                        },
                         onChanged: (value) {}),
                     const SizedBox(
                       height: 20,
@@ -181,10 +178,23 @@ class _ProfileFormState extends State<ProfileForm> {
                                 color: Theme.of(context).colorScheme.primary),
                             onPressed: _datepicker,
                           ),
-                        ))
+                        )),
+                        
                   ],
                 ),
               ),
+              SizedBox(height: 120),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                ElevatedButton(child: const Text('Submit'), onPressed: (){},),
+                const SizedBox(width: 12,),
+                TextButton(child: const Text('skip'), onPressed: (){
+                  if(pro_key.currentState!.validate()){
+                    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => EducationForm()));
+                  }
+                },),
+              ],)
             ],
           ),
         ),
