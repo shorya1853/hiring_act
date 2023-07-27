@@ -24,7 +24,10 @@ class AuthenticationScreen extends StatelessWidget {
               final signin = ref.watch(switchScreen);
               if (signin) {
                 return Column(mainAxisSize: MainAxisSize.min, children: [
-                  const Text('SignIn'),
+                  Text('SignIn', style: TextStyle(
+                            color: Theme.of(context).colorScheme.secondary,
+                            fontSize: 19
+                          ),),
                   const SizedBox(
                     height: 30,
                   ),
@@ -33,8 +36,17 @@ class AuthenticationScreen extends StatelessWidget {
                     child: Column(children: [
                       TextFormField(
                         controller: _emailController,
-                        decoration: const InputDecoration(
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.primary,
+                          fontSize: 20
+                        ),
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(),
                           hintText: 'Email',
+                          hintStyle: TextStyle(
+                            color: Theme.of(context).colorScheme.secondary,
+                            fontSize: 19
+                          ),
                         ),
                         validator: (value) {
                           if(value == null || value.isEmpty){
@@ -44,10 +56,19 @@ class AuthenticationScreen extends StatelessWidget {
                           }
                         },
                       ),
+                      const SizedBox(height: 12,),
                       TextFormField(
                         controller: _passwordController,
-                        decoration: const InputDecoration(
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.primary,fontSize: 20
+                        ),
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(),
                           hintText: 'password',
+                          hintStyle: TextStyle(
+                            color: Theme.of(context).colorScheme.secondary,
+                            fontSize: 19
+                          ),
                         ),
                         validator: (value) {
                           if(value == null || value.isEmpty){
@@ -58,7 +79,7 @@ class AuthenticationScreen extends StatelessWidget {
                         },
                       ),
                     ],),),
-                  
+                  const SizedBox(height: 12,),
                   ElevatedButton(
                       onPressed: () {
                          if(_signform.currentState!.validate()){
@@ -70,6 +91,7 @@ class AuthenticationScreen extends StatelessWidget {
                         
                       },
                       child: const Text('SignIn')),
+
                   TextButton(
                     child: const Text('Create new account'),
                     onPressed: () {
@@ -79,7 +101,11 @@ class AuthenticationScreen extends StatelessWidget {
                 ]);
               }
               return Column(mainAxisSize: MainAxisSize.min, children: [
-                const Text('Login'),
+                Text('Login',
+                style:TextStyle(
+                            color: Theme.of(context).colorScheme.secondary,
+                            fontSize: 19
+                          ),),
                 const SizedBox(
                   height: 30,
                 ),
@@ -88,8 +114,17 @@ class AuthenticationScreen extends StatelessWidget {
                     child: Column(children: [
                       TextFormField(
                         controller: _emailController,
-                        decoration: const InputDecoration(
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.primary,
+                          fontSize: 20,
+                        ),
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(),
                           hintText: 'Email',
+                          hintStyle: TextStyle(
+                            color: Theme.of(context).colorScheme.secondary,
+                            fontSize: 19
+                          ),
                         ),
                         validator: (value) {
                           if(value == null || value.isEmpty){
@@ -99,10 +134,20 @@ class AuthenticationScreen extends StatelessWidget {
                           }
                         },
                       ),
+                      const SizedBox(height: 12,),
                       TextFormField(
                         controller: _passwordController,
-                        decoration: const InputDecoration(
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.primary,
+                          fontSize: 20
+                        ),
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(),
                           hintText: 'password',
+                          hintStyle: TextStyle(
+                            color: Theme.of(context).colorScheme.secondary,
+                            fontSize: 19
+                          ),
                         ),
                         validator: (value) {
                           if(value == null || value.isEmpty){
@@ -112,10 +157,20 @@ class AuthenticationScreen extends StatelessWidget {
                           }
                         },
                       ),
+                      const SizedBox(height: 12,),
                       TextFormField(
                         controller: _confirmPController,
-                        decoration: const InputDecoration(
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.primary,
+                          fontSize: 20
+                        ),
+                        decoration:  InputDecoration(
+                          border: OutlineInputBorder(),
                           hintText: 'confirm password',
+                          hintStyle: TextStyle(
+                            color: Theme.of(context).colorScheme.secondary,
+                            fontSize: 19
+                          ),
                         ),
                         validator: (value) {
                           if(value == null || value.isEmpty){
@@ -129,7 +184,7 @@ class AuthenticationScreen extends StatelessWidget {
                         },
                       ),
                     ],),),
-                
+                const SizedBox(height: 12,),
                 ElevatedButton(
                     onPressed: () {
                       if(_loginform.currentState!.validate()){
