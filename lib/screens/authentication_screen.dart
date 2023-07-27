@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hearing_act/screens/profile_form.dart';
-import 'package:hearing_act/widgets/widgetText_field.dart';
 import 'package:hearing_act/methods/auth_method.dart';
 
 final switchScreen = StateProvider((ref) => false);

@@ -1,16 +1,17 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hearing_act/screens/form/job_pref_form.dart';
 import 'package:hearing_act/screens/home_screen.dart';
 import 'package:hearing_act/screens/authentication_screen.dart';
-import 'package:hearing_act/screens/profile_form.dart';
 
 final kcolorSchema =
     ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 240, 255, 248));
 
 final kdarkcolorSchema = ColorScheme.fromSeed(
-    seedColor: const Color.fromARGB(255, 1, 33, 17),
+    seedColor: Color.fromARGB(255, 0, 255, 51),
     brightness: Brightness.dark);
 
 Future<void> main() async {
@@ -20,8 +21,9 @@ Future<void> main() async {
     
     debugShowCheckedModeBanner: false,
     darkTheme: ThemeData().copyWith(
+      useMaterial3: true,
+      scaffoldBackgroundColor: kdarkcolorSchema.background,
         colorScheme: kdarkcolorSchema,
-        
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
             backgroundColor: kdarkcolorSchema.primaryContainer,
@@ -66,7 +68,7 @@ class Myapp extends StatelessWidget {
         if(snapshot.hasError){
           return const Center(child: Text('Something went worng'),);
         }else if(snapshot.hasData){
-          return ProfileForm();
+          return JobPreference();
         }
         else{
           return AuthenticationScreen();

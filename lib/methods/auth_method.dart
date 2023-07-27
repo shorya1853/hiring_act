@@ -1,7 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hearing_act/methods/firestore_method.dart';
+import 'package:hearing_act/screens/home_screen.dart';
+
+
+
 
 class Auth {
   FirebaseAuth auth = FirebaseAuth.instance;
@@ -9,8 +14,9 @@ class Auth {
   static signupuser(String email, String password, String confirmP,
       BuildContext context) async {
     try {
-      await FirebaseAuth.instance
+      UserCredential cre = await FirebaseAuth.instance
       .createUserWithEmailAndPassword(email: email, password: password);
+      
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         ScaffoldMessenger.of(context)
@@ -30,11 +36,9 @@ class Auth {
 
   static signinuser(String email, String password, BuildContext context) async {
     try {
-      UserCredential credential = await FirebaseAuth.instance
+      UserCredential cre = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
-
-      ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Registration Successful')));
+      
     } on FirebaseAuthException catch (e) {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text(e.toString())));
