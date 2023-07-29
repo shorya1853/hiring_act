@@ -1,4 +1,4 @@
-import 'dart:io';
+import 'dart:typed_data';
 import 'package:intl/intl.dart';
 
 final formatedDate = DateFormat.yMd();
@@ -9,8 +9,18 @@ class JobSeeker{
   JobPreference jobPreference;
   final String? myBio;
 
-  JobSeeker(this.myBio, this.profile, this.education, this.jobPreference);
+  JobSeeker({required this.myBio, required this.profile, required this.education, required this.jobPreference});
+
+  Map<String, dynamic> toJson() =>  {
+    'profile': profile.toJson(),
+    'education': education.toJson(),
+    'jobPreference':  jobPreference.toJson(),
+    'myBio': myBio,
+  };
+
+
 }
+
 enum genders{
   male,
   female,
@@ -32,22 +42,39 @@ const Iamtype = {
 
 
 class Profile{
-  final String name;
-  final genders gender;
-  final Iam iam;
-  final String fullName;
+  final String? gender;
+  final String iam;
+  final String? fullName;
   final DateTime dob;
-  final String email;
-  final File? image;
+  final String? email;
+  final Uint8List? image;
 
-  Profile(this.name, this.gender, this.iam, this.fullName, this.dob, this.email, this.image);
+  Profile({required this.gender, required this.iam, required this.fullName, required this.dob, required this.email, required this.image});
+
+  Map<String, dynamic> toJson ()=> {
+    'gender': gender,
+    'iam': iam,
+    'fullName': fullName,
+    'dob': dob,
+    'email': email,
+    'image': image,
+  };
+
 }
+
+
 class HigestEducation{
-  final String instituteName;
-  final String edLevel;
+  final String? instituteName;
+  final String? edLevel;
   final DateTime duration;
 
-  HigestEducation(this.instituteName, this.edLevel, this.duration);
+  HigestEducation({required this.instituteName, required this.edLevel, required this.duration});
+
+  Map<String, dynamic> toJson() => {
+    'instituteName': instituteName,
+    'edlevel': edLevel,
+    'duration': duration,
+  };
 }
 
 
@@ -55,9 +82,16 @@ class JobPreference{
   final String jobType;
   final String? functionArea;
   final String? preferedCity;
-  final int expectedSalary;
+  final String expectedSalary;
 
-  JobPreference(this.jobType, this.functionArea, this.preferedCity, this.expectedSalary);
+  JobPreference({required this.jobType, required this.functionArea, required this.preferedCity, required this.expectedSalary});
 
+  Map<String, dynamic> toJson () => {
+    'jobType': jobType,
+    'functionArea': functionArea,
+    'preferedCity': preferedCity,
+    'expectedSalary': expectedSalary,
+  };
+  
   
 }

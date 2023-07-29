@@ -17,39 +17,41 @@ final kdarkcolorSchema = ColorScheme.fromSeed(
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp( MaterialApp(
-    
-    debugShowCheckedModeBanner: false,
-    darkTheme: ThemeData().copyWith(
-      useMaterial3: true,
-      scaffoldBackgroundColor: kdarkcolorSchema.background,
-        colorScheme: kdarkcolorSchema,
-        elevatedButtonTheme: ElevatedButtonThemeData(
-          style: ElevatedButton.styleFrom(
-            backgroundColor: kdarkcolorSchema.primaryContainer,
-            foregroundColor: kdarkcolorSchema.onPrimaryContainer,
-          ),
-        ),
-
-      ),
-      theme: ThemeData().copyWith(
-        colorScheme: kcolorSchema,
-        appBarTheme: const AppBarTheme().copyWith(
-          backgroundColor: kcolorSchema.onPrimaryContainer,
-          foregroundColor: kcolorSchema.primaryContainer,
-        ),
-        elevatedButtonTheme: ElevatedButtonThemeData(
-          style: ElevatedButton.styleFrom(
-            backgroundColor: kcolorSchema.primaryContainer,
-          ),
-        ),
-        textTheme: ThemeData().textTheme.copyWith(
-              titleLarge: TextStyle(
-                color: kcolorSchema.onSecondaryContainer,
-              ),
+  runApp( ProviderScope(
+    child: MaterialApp(
+      
+      debugShowCheckedModeBanner: false,
+      darkTheme: ThemeData().copyWith(
+        useMaterial3: true,
+        scaffoldBackgroundColor: kdarkcolorSchema.background,
+          colorScheme: kdarkcolorSchema,
+          elevatedButtonTheme: ElevatedButtonThemeData(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: kdarkcolorSchema.primaryContainer,
+              foregroundColor: kdarkcolorSchema.onPrimaryContainer,
             ),
-      ),
-    home: const ProviderScope(child: Myapp()),
+          ),
+  
+        ),
+        theme: ThemeData().copyWith(
+          colorScheme: kcolorSchema,
+          appBarTheme: const AppBarTheme().copyWith(
+            backgroundColor: kcolorSchema.onPrimaryContainer,
+            foregroundColor: kcolorSchema.primaryContainer,
+          ),
+          elevatedButtonTheme: ElevatedButtonThemeData(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: kcolorSchema.primaryContainer,
+            ),
+          ),
+          textTheme: ThemeData().textTheme.copyWith(
+                titleLarge: TextStyle(
+                  color: kcolorSchema.onSecondaryContainer,
+                ),
+              ),
+        ),
+      home: const Myapp(),
+    ),
   ));
 }
 
@@ -68,7 +70,7 @@ class Myapp extends StatelessWidget {
         if(snapshot.hasError){
           return const Center(child: Text('Something went worng'),);
         }else if(snapshot.hasData){
-          return JobPreference();
+          return JobPreferenceForm();
         }
         else{
           return AuthenticationScreen();

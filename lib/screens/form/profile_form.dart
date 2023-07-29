@@ -1,21 +1,29 @@
+import 'dart:typed_data';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hearing_act/providers/form_data_provider.dart';
 import 'package:hearing_act/screens/form/eduction_form.dart';
-
+import 'package:image_picker/image_picker.dart';
 import '../../main.dart';
 import '../../models/employe_model.dart';
+import '../../utils/image_pic.dart';
 
-class ProfileForm extends StatefulWidget {
+class ProfileForm extends ConsumerStatefulWidget {
   const ProfileForm({super.key});
 
   @override
-  State<ProfileForm> createState() => _ProfileFormState();
+  ConsumerState<ProfileForm> createState() => _ProfileFormState();
 }
 
-class _ProfileFormState extends State<ProfileForm> {
+class _ProfileFormState extends ConsumerState<ProfileForm> {
   var pro_key = GlobalKey<FormState>();
-  var initgenderT = gendertype[genders.male];
-  var initJobT = Iamtype[Iam.Expriences];
-  DateTime? _DateOB;
+  var email = FirebaseAuth.instance.currentUser!.email;
+  var initgenderT = genders.male.name;
+  var initiam = Iam.Freacher.name;
+  var fullname = '';
+  Uint8List? _image;
+  DateTime _DateOB =  DateTime.now();
 
   void _datepicker() async {
     final now = DateTime.now();
@@ -27,8 +35,29 @@ class _ProfileFormState extends State<ProfileForm> {
         firstDate: firstDate,
         lastDate: now);
     setState(() {
-      _DateOB = pickedDate;
+      _DateOB = pickedDate!;
     });
+  }
+
+  void selectImage()async{
+    Uint8List im = await pickedImage(ImageSource.gallery);
+    setState(() {
+      _image = im;
+    });
+  }
+
+  void sendProfile() {
+    if (pro_key.currentState!.validate()) {
+      pro_key.currentState!.save();
+      ref.read(profileD.notifier).getPro(Profile(
+          gender: initgenderT,
+          iam: initiam,
+          fullName: fullname,
+          dob: _DateOB,
+          email: email,
+          image: _image));
+    }
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => EducationForm()));
   }
 
   @override
@@ -41,8 +70,12 @@ class _ProfileFormState extends State<ProfileForm> {
           child: Column(
             children: [
               Stack(
-                children: [
-                  const CircleAvatar(
+                children: [ _image != null
+                ? CircleAvatar(
+                  radius: 80,
+                  backgroundImage: MemoryImage(_image!)
+                )
+                : const CircleAvatar(
                     radius: 80,
                     backgroundImage: NetworkImage(
                         'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'),
@@ -55,7 +88,7 @@ class _ProfileFormState extends State<ProfileForm> {
                           Icons.add_a_photo,
                           color: Theme.of(context).colorScheme.onPrimary,
                         ),
-                        onPressed: () {},
+                        onPressed: selectImage,
                       ))
                 ],
               ),
@@ -96,12 +129,16 @@ class _ProfileFormState extends State<ProfileForm> {
                                 .onPrimaryContainer,
                             label: const Text("Gender",
                                 style: TextStyle(fontSize: 20))),
-                        onChanged: (value) {}),
+                        onChanged: (value) {
+                          setState(() {
+                            initgenderT = value!;
+                          });
+                        }),
                     const SizedBox(
                       height: 20,
                     ),
                     DropdownButtonFormField(
-                        value: initJobT,
+                        value: initiam,
                         decoration: InputDecoration(
                             border: const OutlineInputBorder(),
                             fillColor: Theme.of(context)
@@ -130,7 +167,11 @@ class _ProfileFormState extends State<ProfileForm> {
                               ),
                             )
                         ],
-                        onChanged: (value) {}),
+                        onChanged: (value) {
+                          setState(() {
+                            initiam = value!;
+                          });
+                        }),
                     const SizedBox(
                       height: 20,
                     ),
@@ -146,6 +187,9 @@ class _ProfileFormState extends State<ProfileForm> {
                           return 'Enter Your Name';
                         }
                         return null;
+                      },
+                      onSaved: (newvalue){
+                        fullname = newvalue!;
                       },
                       style: TextStyle(
                           color: kdarkcolorSchema.primary, fontSize: 20),
@@ -167,7 +211,7 @@ class _ProfileFormState extends State<ProfileForm> {
                           subtitle: Text(
                             _DateOB == null
                                 ? 'Select Date'
-                                : formatedDate.format(_DateOB!),
+                                : formatedDate.format(_DateOB),
                             style: TextStyle(
                                 color: Theme.of(context).colorScheme.primary,
                                 fontSize: 16),
@@ -189,11 +233,7 @@ class _ProfileFormState extends State<ProfileForm> {
                 children: [
                 ElevatedButton(child: const Text('Submit'), onPressed: (){},),
                 const SizedBox(width: 12,),
-                TextButton(child: const Text('skip'), onPressed: (){
-                  if(pro_key.currentState!.validate()){
-                    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => EducationForm()));
-                  }
-                },),
+                TextButton(child: const Text('skip'), onPressed: sendProfile,),
               ],)
             ],
           ),
