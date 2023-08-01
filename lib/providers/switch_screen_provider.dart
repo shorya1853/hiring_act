@@ -1,15 +1,14 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hearing_act/models/employe_model.dart';
 
+// final FinalData = StateNotifierProvider<FinalDataNotifier, JobSeeker>(
+//   (ref) {
+//     return FinalDataNotifier();
+//   },
+// );
 
-class CheckDataNotifier extends StateNotifier<bool>{
-  CheckDataNotifier(): super(false);
+// class FinalDataNotifier extends StateNotifier<JobSeeker> {
+//   FinalDataNotifier() : super();
 
-  
-
-
-}
-
-final ifExisit = StateNotifierProvider<CheckDataNotifier, bool>((ref){
-  return CheckDataNotifier();
-} );
-
+//   void getFinalData() {}
+// }

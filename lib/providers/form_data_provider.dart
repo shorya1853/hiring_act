@@ -1,49 +1,62 @@
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hearing_act/methods/firestore_method.dart';
 import 'package:hearing_act/models/employe_model.dart';
 
 final jobPrefeD =
-    StateNotifierProvider<JobPreferencNotifier, Map<String,dynamic>>((ref) {
+    StateNotifierProvider<JobPreferencNotifier, JobPreference>((ref) {
   return JobPreferencNotifier();
 });
 
-class JobPreferencNotifier extends StateNotifier<Map<String,dynamic>> {
+class JobPreferencNotifier extends StateNotifier<JobPreference> {
   JobPreferencNotifier()
-      : super({});
+      : super(JobPreference(
+            jobType: '',
+            functionArea: 'functionArea',
+            preferedCity: 'preferedCity',
+            expectedSalary: '0'));
 
   void getJobPref(JobPreference jobpref) {
-    Map<String, dynamic> data = jobpref.toJson();
-    state = data;
+    state = jobpref;
   }
 }
 
-final profileD = StateNotifierProvider<ProfileNotifier, Map<String,dynamic>>((ref) {
+final profileD = StateNotifierProvider<ProfileNotifier, Profile>((ref) {
   return ProfileNotifier();
 });
 
-class ProfileNotifier extends StateNotifier<Map<String,dynamic>> {
+class ProfileNotifier extends StateNotifier<Profile> {
   ProfileNotifier()
-      : super({});
+      : super(Profile(
+            gender: genders.male.name,
+            iam: Iam.Expriences.name,
+            fullName: "fullName",
+            dob: DateTime.now(),
+            email: "",
+            image: null));
 
   void getPro(Profile profiled) {
-    Map<String, dynamic> data = profiled.toJson();
-    state = data;
+    state = profiled;
   }
 }
 
-final highED = StateNotifierProvider<HighestEDNotifier, Map<String,dynamic>>((ref) {
+final highED = StateNotifierProvider<HighestEDNotifier, HigestEducation>((ref) {
   return HighestEDNotifier();
 });
 
-class HighestEDNotifier extends StateNotifier<Map<String,dynamic>> {
+class HighestEDNotifier extends StateNotifier<HigestEducation> {
   HighestEDNotifier()
-      : super({});
+      : super(HigestEducation(
+            instituteName: 'instituteName',
+            edLevel: 'edLevel',
+            duration: ''));
 
   void getHigh(HigestEducation highed) {
-    Map<String, dynamic> data = highed.toJson();
-    state = data;
-
+    state = highed;
   }
 }
