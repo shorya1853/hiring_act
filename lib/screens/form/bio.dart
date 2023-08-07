@@ -32,7 +32,7 @@ class _BioFormState extends ConsumerState<BioForm> {
         education: highE,
         jobPreference: jobpref));
     
-    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const HomeScreen()));
+    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) =>  HomeScreen()));
   }
   @override
   Widget build(BuildContext context) {

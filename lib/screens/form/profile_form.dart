@@ -57,13 +57,17 @@ class _ProfileFormState extends ConsumerState<ProfileForm> {
           email: email,
           image: _image));
     }
-    Navigator.of(context).push(MaterialPageRoute(builder: (context) => EducationForm()));
+    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => EducationForm()));
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Your Profile')),
+      appBar: AppBar(
+        leading: IconButton(icon: const Icon(Icons.arrow_back), onPressed: (){
+            Navigator.of(context).pop();
+          },),
+        title: const Text('Your Profile')),
       body: SingleChildScrollView(
         child: Container(
           padding: const EdgeInsets.all(8),

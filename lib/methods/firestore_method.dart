@@ -1,11 +1,15 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:hearing_act/models/employe_model.dart';
 
+final _auth = FirebaseAuth.instance;
+final  _firestore = FirebaseFirestore.instance;
 class FireStoreMethods{
-  final  _firestore = FirebaseFirestore.instance;
-  final _auth = FirebaseAuth.instance;
+  
+  
   Future<String?> sendData (JobSeeker jobSeeker)async{
     final data = JobSeeker(
         myBio: jobSeeker.myBio,
@@ -21,5 +25,24 @@ class FireStoreMethods{
       print(e.toString());
       return e.toString();
     }
+  }
+}
+
+class GetData {
+  Future<JobSeeker?> getdata() async {
+      var users = await _firestore.collection('JobSeeker')
+        .doc(_auth.currentUser!.uid)
+        .get();
+      print(users.data());
+      if(users.exists){
+        print('users exist');
+        var data = JobSeeker.fromJson(users);
+        print(data.education.duration);
+        return data;
+      }
+      else{
+        print('no users exits');
+        return null;
+      }                                                                                                 
   }
 }

@@ -16,8 +16,8 @@ class JobSeeker {
       required this.education,
       required this.jobPreference});
 
-  static JobSeeker fromJson(DocumentSnapshot json) {
-    var snapshot = json.data() as Map<String, dynamic>;
+  static JobSeeker fromJson(DocumentSnapshot snap) {
+    var snapshot = snap.data() as Map<String, dynamic>;
     return JobSeeker(
         myBio: snapshot['myBio'],
         profile: Profile.fromJson(snapshot['profile']),
@@ -64,13 +64,13 @@ class Profile {
       required this.email,
       required this.image});
 
-  static Profile fromJson(DocumentSnapshot json) {
-    var snapshot = json.data() as Map<String, dynamic>;
+  static Profile fromJson(Map<String,dynamic> snapshot) {
+    //var snapshot = json.data() as Map<String, dynamic>;
     return Profile(
         gender: snapshot['gender'],
         iam: snapshot['iam'],
         fullName: snapshot['fullName'],
-        dob: snapshot['dob'],
+        dob: snapshot['dob'].toDate(),
         email: snapshot['email'],
         image: snapshot['image']);
   }
@@ -95,8 +95,8 @@ class HigestEducation {
       required this.edLevel,
       required this.duration});
 
-  static HigestEducation fromJson(DocumentSnapshot json) {
-    var snapshot = json.data() as Map<String, dynamic>;
+  static HigestEducation fromJson(Map<String,dynamic> snapshot) {
+    //var snapshot = json.data() as Map<String, dynamic>;
     return HigestEducation(
         instituteName: snapshot['instituteName'],
         edLevel: snapshot['edLevel'],
@@ -122,8 +122,8 @@ class JobPreference {
       required this.preferedCity,
       required this.expectedSalary});
 
-  static JobPreference fromJson(DocumentSnapshot json) {
-    var snapshot = json.data() as Map<String, dynamic>;
+  static JobPreference fromJson(Map<String,dynamic> snapshot) {
+    //var snapshot = json.data() as Map<String, dynamic>;
     return JobPreference(
         jobType: snapshot['jobType'],
         functionArea: snapshot['functionArea'],

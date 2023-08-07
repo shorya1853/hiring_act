@@ -30,7 +30,7 @@ class _JobPreferenceState extends ConsumerState<JobPreferenceForm> {
           expectedSalary: expectS));
 
       Navigator.of(context)
-          .push(MaterialPageRoute(builder: (context) => ProfileForm()));
+          .pushReplacement(MaterialPageRoute(builder: (context) => ProfileForm()));
     }
   }
 
@@ -39,6 +39,9 @@ class _JobPreferenceState extends ConsumerState<JobPreferenceForm> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(icon: const Icon(Icons.arrow_back), onPressed: (){
+            Navigator.of(context).pop();
+          },),
         title: const Text('Job Preference'),
       ),
       body: SingleChildScrollView(
