@@ -19,39 +19,37 @@ final kdarkcolorSchema = ColorScheme.fromSeed(
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp( ProviderScope(
+  runApp(ProviderScope(
     child: MaterialApp(
-      
       debugShowCheckedModeBanner: false,
       darkTheme: ThemeData().copyWith(
         useMaterial3: true,
         scaffoldBackgroundColor: kdarkcolorSchema.background,
-          colorScheme: kdarkcolorSchema,
-          elevatedButtonTheme: ElevatedButtonThemeData(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: kdarkcolorSchema.primaryContainer,
-              foregroundColor: kdarkcolorSchema.onPrimaryContainer,
-            ),
+        colorScheme: kdarkcolorSchema,
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: kdarkcolorSchema.primaryContainer,
+            foregroundColor: kdarkcolorSchema.onPrimaryContainer,
           ),
-  
         ),
-        theme: ThemeData().copyWith(
-          colorScheme: kcolorSchema,
-          appBarTheme: const AppBarTheme().copyWith(
-            backgroundColor: kcolorSchema.onPrimaryContainer,
-            foregroundColor: kcolorSchema.primaryContainer,
+      ),
+      theme: ThemeData().copyWith(
+        colorScheme: kcolorSchema,
+        appBarTheme: const AppBarTheme().copyWith(
+          backgroundColor: kcolorSchema.onPrimaryContainer,
+          foregroundColor: kcolorSchema.primaryContainer,
+        ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: kcolorSchema.primaryContainer,
           ),
-          elevatedButtonTheme: ElevatedButtonThemeData(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: kcolorSchema.primaryContainer,
-            ),
-          ),
-          textTheme: ThemeData().textTheme.copyWith(
-                titleLarge: TextStyle(
-                  color: kcolorSchema.onSecondaryContainer,
-                ),
+        ),
+        textTheme: ThemeData().textTheme.copyWith(
+              titleLarge: TextStyle(
+                color: kcolorSchema.onSecondaryContainer,
               ),
-        ),
+            ),
+      ),
       home: const Myapp(),
     ),
   ));

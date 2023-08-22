@@ -37,7 +37,6 @@ class GetData {
       if(users.exists){
         print('users exist');
         var data = JobSeeker.fromJson(users);
-        print(data.education.duration);
         return data;
       }
       else{
