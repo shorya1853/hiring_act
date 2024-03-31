@@ -26,7 +26,7 @@ class _CheckerState extends ConsumerState<Checker> {
   }
   
   void collectionChecker()async{
-    final users = await GetData().getdata();
+    final users = await GetData.getdata();
     if(users != null){
       setState(() {
         Content =  HomeScreen();

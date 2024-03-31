@@ -1,36 +1,26 @@
 {
   "project_info": {
-    "project_number": "628960800333",
-    "project_id": "hearingact",
-    "storage_bucket": "hearingact.appspot.com"
+    "project_number": "697118422970",
+    "project_id": "hirect-app-13237",
+    "storage_bucket": "hirect-app-13237.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:628960800333:android:8cb09219c2a775179c7604",
+        "mobilesdk_app_id": "1:697118422970:android:ceabdabdff4e9e5f79cf83",
         "android_client_info": {
           "package_name": "com.example.hearing_act"
         }
       },
-      "oauth_client": [
-        {
-          "client_id": "628960800333-oc79oktjfj0uhbrk0vligav9o4inm3pu.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
+      "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyD29nviczF4e4a--hJHhvGei91RkPbglrQ"
+          "current_key": "AIzaSyBmqPP8WzPM7Nr7zmQhxgrEFnVI7coRapM"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "628960800333-oc79oktjfj0uhbrk0vligav9o4inm3pu.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
+          "other_platform_oauth_client": []
         }
       }
     }

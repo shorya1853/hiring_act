@@ -25,11 +25,12 @@ class FireStoreMethods{
       print(e.toString());
       return e.toString();
     }
+    return null;
   }
 }
 
 class GetData {
-  Future<JobSeeker?> getdata() async {
+  static Future<JobSeeker?>  getdata() async {
       var users = await _firestore.collection('JobSeeker')
         .doc(_auth.currentUser!.uid)
         .get();

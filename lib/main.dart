@@ -4,10 +4,12 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hearing_act/checker.dart';
+import 'package:hearing_act/methods/auth_method.dart';
 import 'package:hearing_act/providers/form_data_provider.dart';
 import 'package:hearing_act/screens/form/job_pref_form.dart';
 import 'package:hearing_act/screens/home_screen.dart';
 import 'package:hearing_act/screens/authentication_screen.dart';
+import 'package:image_picker/image_picker.dart';
 
 final kcolorSchema =
     ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 240, 255, 248));
@@ -18,12 +20,18 @@ final kdarkcolorSchema = ColorScheme.fromSeed(
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(
+    options: const FirebaseOptions(
+      apiKey: "AIzaSyBmqPP8WzPM7Nr7zmQhxgrEFnVI7coRapM",
+      appId: "1:697118422970:android:ceabdabdff4e9e5f79cf83",
+      messagingSenderId: "697118422970",
+      projectId: "hirect-app-13237",
+    ),
+  );
   runApp(ProviderScope(
     child: MaterialApp(
       debugShowCheckedModeBanner: false,
       darkTheme: ThemeData().copyWith(
-        useMaterial3: true,
         scaffoldBackgroundColor: kdarkcolorSchema.background,
         colorScheme: kdarkcolorSchema,
         elevatedButtonTheme: ElevatedButtonThemeData(
@@ -57,25 +65,37 @@ Future<void> main() async {
 
 class Myapp extends StatelessWidget {
   const Myapp({super.key});
-  
-  
+
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
-      body: StreamBuilder(
-        stream: FirebaseAuth.instance.authStateChanges(),
-        builder: (context, snapshot) {
-        if(snapshot.connectionState == ConnectionState.waiting){
+    return Scaffold(
+        body: StreamBuilder(
+      stream: FirebaseAuth.instance.authStateChanges(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());
         }
-        if(snapshot.hasError){
-          return const Center(child: Text('Something went worng'),);
-        }else if(snapshot.hasData){
-          return const Checker();
-        }
-        else{
+        if (snapshot.hasError) {
+          return const Center(
+            child: Text('Something went worng'),
+          );
+        } else if (snapshot.hasData) {
+          User? user = snapshot.data;
+            DateTime? creationTime = user!.metadata.creationTime;
+            DateTime? lastSignInTime = user.metadata.lastSignInTime;
+
+            // Check if the user is new or returning
+            bool isNewUser = creationTime == lastSignInTime;
+
+            if (isNewUser) {
+              return const JobPreferenceForm();
+            } else {
+              return HomeScreen();
+            }
+        } else {
           return AuthenticationScreen();
         }
-      },));
+      },
+    ));
   }
 }
